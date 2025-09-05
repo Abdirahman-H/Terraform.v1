@@ -4,7 +4,7 @@ This project demonstrates deploying a **basic EC2 instance on AWS** using Terraf
 
 ## What the project does
 
-- Launches a **t2.micro EC2 instance** (Free Tier eligible)
+- Launches a **t2.micro EC2 instance** 
 - Uses the **latest Amazon Linux 2023 (Kernel 6.1) AMI** retrieved automatically via **SSM Parameter Store**
 - Outputs the **public IP address** after deployment
 
