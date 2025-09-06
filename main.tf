@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "eu-west-2" # London
+  region = "eu-west-2" 
 }
 
 # Get the latest Amazon Linux 2023 (Kernel 6.1) AMI in eu-west-2
