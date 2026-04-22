@@ -7,10 +7,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket       = "backend-ah-state"
-    key          = "prod/terraform.tfstate"
+    bucket    = "backend-ah-state"
+    key       = "prod/terraform.tfstate"
     use_lockfile = "true"
-    region       = "eu-west-2"
+    region    = "eu-west-2"
   }
 
 }

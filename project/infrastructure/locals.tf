@@ -1,6 +1,6 @@
 locals {
   tags = {
-    environment = "production"
+    environment = terraform.workspace
     project     = "wordpress"
     managed_by  = "Terraform"
   }

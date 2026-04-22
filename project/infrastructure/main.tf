@@ -9,18 +9,18 @@ module "compute" {
 
 
 module "database" {
-  source       = "./modules/database"
-  subnet_ids   = module.networking.private_subnet_ids
+  source             = "./modules/database"
+  subnet_ids         = module.networking.private_subnet_ids
   security_group_ids = [module.security.rds_sg_id]
-  db_username  = var.db_username
-  db_password  = var.db_password
-  
+  db_username        = var.db_username
+  db_password        = var.db_password
+
 }
 
 
 
 resource "aws_lb" "load_balancer" {
-  name               = "lb"
+  name               = "lb-${terraform.workspace}"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [module.security.alb_sg_id]
@@ -35,7 +35,7 @@ resource "aws_lb" "load_balancer" {
 
 
 resource "aws_lb_target_group" "alb_tg" {
-  name     = "alb-tg"
+  name     = "alb-tg-${terraform.workspace}"
   port     = 80
   protocol = "HTTP"
   vpc_id   = module.networking.vpc_id
