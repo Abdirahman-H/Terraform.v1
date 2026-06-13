@@ -17,6 +17,9 @@ jobs:
   terraform-ci:
     name: Validate & Plan
     runs-on: ubuntu-latest 
+    defaults:
+      run:
+        working-directory: project/infrastructure
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -48,6 +51,9 @@ jobs:
   terraform-cd:
     name: Apply
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: project/infrastructure
     needs: terraform-ci
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'    
 
