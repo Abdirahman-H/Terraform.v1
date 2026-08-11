@@ -107,3 +107,46 @@ terraform destroy
 - SSH restricted to specific IP
 - Sensitive values stored in `terraform.tfvars` (not pushed to GitHub)
 - Remote state stored securely in S3
+
+
+CI/CD Pipeline
+This project includes two GitHub Actions pipelines that automate the deployment and destruction of the WordPress infrastructure.
+Deploy Pipeline (terraform.yml)
+Triggered automatically when changes are made to files inside project/infrastructure/. Requires manual approval before applying changes to AWS.
+Push Terraform changes to main
+        ↓
+Terraform Init    → connects to S3 remote state
+Terraform Fmt     → validates code formatting
+Terraform Validate→ checks code is valid
+Terraform Plan    → shows what will change in AWS
+        ↓
+Pipeline pauses for manual approval ⏸️
+        ↓
+Approve → Terraform Apply → infrastructure deployed ✅
+Reject  → pipeline stops, nothing changes ✅
+Destroy Pipeline (terraform-destroy.yml)
+Triggered manually only. Requires typing DESTROY to confirm and manual approval before destroying infrastructure.
+Manually trigger from GitHub Actions
+        ↓
+Type DESTROY to confirm
+        ↓
+Terraform Init    → connects to S3 remote state
+Terraform Plan -destroy → shows what will be destroyed
+        ↓
+Pipeline pauses for manual approval ⏸️
+        ↓
+Approve → Terraform Destroy → infrastructure removed ✅
+Reject  → pipeline stops, nothing changes ✅
+Pipeline Features
+✅ Path based triggers     → only runs when Terraform files change
+✅ Remote state in S3      → consistent state across all runs
+✅ State locking           → prevents concurrent applies
+✅ Secrets management      → AWS credentials stored in GitHub Secrets
+✅ Artifact passing        → plan passed between jobs securely
+✅ Manual approval gates   → human review before any changes
+✅ Safety confirmation     → type DESTROY to prevent accidents
+GitHub Secrets Required
+AWS_ACCESS_KEY_ID       → IAM user access key
+AWS_SECRET_ACCESS_KEY   → IAM user secret key
+TF_VAR_db_password      → RDS database password
+TF_VAR_db_username      → RDS database username
